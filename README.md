@@ -24,10 +24,10 @@ It's built with TDD approach for practise :)
 Two ways to run:
 
 	# use MakeFile command
-	make run IMAGE_PATH
+	make run IMAGEPATH={IMAGE_PATH}
 
 	# or use Python command
-	python imagetiler/tiler.py IMAGE_PATH
+	python3 imagetiler/tiler.py {IMAGE_PATH}
 
 
 ## Output
@@ -41,3 +41,14 @@ Check output files in output foler after execution.
 # Dependencies
 
 -  [Pillow](https://pillow.readthedocs.io/en/stable/)
+
+# Problems Found
+
+## PNG file size is too big, need to convert to JPG first, code sample:
+
+	img = Image.open('xxx.png')
+    img = img.convert("RGB")
+	img.save('xxx.jpg')
+
+
+ 
