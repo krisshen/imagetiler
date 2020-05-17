@@ -36,7 +36,6 @@ def parse(imagePath):
 
 def getOutputPath(path):
     return os.path.splitext(os.path.realpath(path))[0]
-    # 
 
 
 # resize and crop image for each level
