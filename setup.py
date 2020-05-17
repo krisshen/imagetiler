@@ -14,7 +14,7 @@ setup(
     long_description_content_type='text/markdown',
     author='Kris Shen',
     author_email='kris.shen.yang@gmail.com',
-    url='https://www.github.com/xxx',
+    url='https://github.com/krisshen/imagetiler',
     packages=find_packages(exclude=['tests', 'tests.*']),
     test_suite='tests',
     install_requires=[
