@@ -16,11 +16,15 @@ class ImageTilerUnitTests(unittest.TestCase):
     def test_file_path_not_exist(self):
         imagePath = './images/non_exist_file.png'
         self.assertRaises(FileNotFoundError, tiler.validateFilePath, imagePath)
-
+        
     def test_not_supported_file_format(self):
         imagePath = './images/not-an-image.txt'
         self.assertRaises(UnidentifiedImageError, tiler.parse, imagePath)
 
+    def test_incorrect_file_content(self):
+        imagePath = './images/still-not-an-image.jpg'
+        self.assertRaises(UnidentifiedImageError, tiler.parse, imagePath)
+        
     def test_get_output_path(self):
         imagePath = './a.b/images/cat1.png'
         self.assertEqual(tiler.getOutputPath(imagePath), os.path.dirname(os.path.realpath(imagePath)) + '/cat1')
@@ -39,7 +43,7 @@ class ImageTilerUnitTests(unittest.TestCase):
         self.assertEqual(tiler.getTotalLevel(7000, 5000),
                          1 + round(math.log2(7000)))
 
-    def test_size_per_layer(self):
+    def test_size_per_level(self):
         levels = tiler.calcAllLevelsSize(987, 660, 11)
 
         self.assertEqual(levels[10], (987, 660))
@@ -55,7 +59,7 @@ class ImageTilerUnitTests(unittest.TestCase):
         self.assertEqual(levels[0], (1, 1))
 
     # @unittest.skip("skip it")
-    def test_resize_image1(self):
+    def test_resize_crop_medium_size_png_image(self):
 
         self.cleanUp()
 
@@ -93,8 +97,13 @@ class ImageTilerUnitTests(unittest.TestCase):
         self.assertEqual(actual_x, 256)
         self.assertEqual(actual_y, 148)
 
+        # image size in level 0 should be (1, 1)
+        img = Image.open('./output/0/0_0.jpg')
+        actual_x, actual_y = tiler.getImageSize(img)
+        self.assertEqual((actual_x, actual_y), (1, 1))
+
     # @unittest.skip("skip it")
-    def test_resize_image2(self):
+    def test_resize_crop_large_size_image(self):
 
         self.cleanUp()
 
@@ -132,8 +141,13 @@ class ImageTilerUnitTests(unittest.TestCase):
         self.assertEqual(actual_x, 192)
         self.assertEqual(actual_y, 208)
 
+        # image size in level 0 should be (1, 1)
+        img = Image.open('./output/0/0_0.jpg')
+        actual_x, actual_y = tiler.getImageSize(img)
+        self.assertEqual((actual_x, actual_y), (1, 1))
+
     # @unittest.skip("skip it")
-    def test_resize_image3(self):
+    def test_resize_crop_x_large_size_image(self):
 
         self.cleanUp()
 
@@ -154,7 +168,12 @@ class ImageTilerUnitTests(unittest.TestCase):
         self.assertEqual(len(os.listdir('./output/9')), 2)
         self.assertEqual(len(os.listdir('./output/8')), 1)
 
-    def test_resize_image4(self):
+        # image size in level 0 should be (1, 1)
+        img = Image.open('./output/0/0_0.jpg')
+        actual_x, actual_y = tiler.getImageSize(img)
+        self.assertEqual((actual_x, actual_y), (1, 1))
+
+    def test_resize_crop_xx_large_size_image(self):
 
         self.cleanUp()
 
@@ -180,5 +199,44 @@ class ImageTilerUnitTests(unittest.TestCase):
         # image size in level 0 should be (1, 1)
         img = Image.open('./output/0/0_0.jpg')
         actual_x, actual_y = tiler.getImageSize(img)
-        self.assertEqual(actual_x, 1)
-        self.assertEqual(actual_y, 1)
+        self.assertEqual((actual_x, actual_y), (1, 1))
+
+    # @unittest.skip("skip it")
+    def test_tiler_tiff_image(self):
+
+        # test cat5.tiff, size: 987 x 660
+        imagePath = './images/cat5'
+
+        tiler.parse(imagePath + '.tiff')
+
+        # check total tiles in each level
+        self.assertEqual(len(os.listdir(imagePath + '/10')), 12)
+        self.assertEqual(len(os.listdir(imagePath + '/9')), 4)
+        self.assertEqual(len(os.listdir(imagePath + '/8')), 1)
+        self.assertEqual(len(os.listdir(imagePath + '/0')), 1)
+
+        # check file size for edge ones
+        # top right
+        img = Image.open(imagePath + '/10/768_0.jpg')
+        actual_x, actual_y = tiler.getImageSize(img)
+        self.assertEqual(actual_x, 219)
+        self.assertEqual(actual_y, 256)
+        # bottom right
+        img = Image.open(imagePath + '/10/768_512.jpg')
+        actual_x, actual_y = tiler.getImageSize(img)
+        self.assertEqual(actual_x, 219)
+        self.assertEqual(actual_y, 148)
+        # bottom left
+        img = Image.open(imagePath + '/10/0_512.jpg')
+        actual_x, actual_y = tiler.getImageSize(img)
+        self.assertEqual(actual_x, 256)
+        self.assertEqual(actual_y, 148)
+
+        # image size in level 0 should be (1, 1)
+        img = Image.open(imagePath + '/0/0_0.jpg')
+        actual_x, actual_y = tiler.getImageSize(img)
+        self.assertEqual((actual_x, actual_y), (1, 1))
+
+        # clean up
+        if path.exists(imagePath):
+            shutil.rmtree(imagePath)

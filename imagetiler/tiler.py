@@ -25,10 +25,7 @@ def parse(imagePath):
     totalLevel = getTotalLevel(size_x, size_y)
     print("total level is: " + str(totalLevel))
     # calculate all level's size
-    levels = calcAllLevelsSize(size_y, size_y, totalLevel)
-
-    # get bounding box coordinates
-    left, upper, right, lower = img.getbbox()
+    levels = calcAllLevelsSize(size_x, size_y, totalLevel)
 
     # some real work on images
     resizeAndCropImage(img, levels, outputPath)
