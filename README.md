@@ -58,7 +58,7 @@ A directory with the same image name will be created in the same path of input i
 -  validate input file size
 -  validate total levels calculation
 -  validate each level's overall size
--  validate resize and crop functions for different image size (very large one 24mb image not uploaded into this repo)
+-  validate resize and crop functions for different image size (tested manually, very large one 24mb image not uploaded into this repo)
 
 
 # Dependencies
