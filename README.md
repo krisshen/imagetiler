@@ -4,6 +4,7 @@
 This code base is a simple **Image Tiler** utility (Python module) written in Python 3. It reads an input image, calculate its levels (based on 1/2 resolution, 1/4 resolution and so on until 1x1) and size per each level, then generates 256x256 sized tiles for the entire image per level, which means all tiles will make up to a full image.
 
 **Input:** an image file path, e.g. "./images/cat1.png"
+
 **Output:** a directory with the same image name will be created in the same path of input image, and this directory consists of tiles in each level, naming convention: "./images/cat1/{Level}/{x}_{y}.jpg" - x, y are top left coordinates of the tile.
 
 **Note:** This utility assumes the input file path is also writable.
@@ -49,10 +50,11 @@ A directory with the same image name will be created in the same path of input i
 
 ## Scenarios Covered
 
--  input file not exist
--  input file format not supported
--  input file content not correct
--  input file path contains extra dots, e.g. './a.b/images/cat1.png'
+-  Error handling, input file not exist
+-  Error handling, input file format not supported
+-  Error handling, input file content not correct
+-  Tricky case, input file path contains extra dots, e.g. './a.b/images/cat1.png'
+-  Tricky case, input file path contains space (tested manually)
 -  validate input file size
 -  validate total levels calculation
 -  validate each level's overall size

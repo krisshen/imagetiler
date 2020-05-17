@@ -1,6 +1,7 @@
 import math
 import sys
 import os
+import errno
 from os import path
 from PIL import Image
 
@@ -29,6 +30,8 @@ def parse(imagePath):
 
     # some real work on images
     resizeAndCropImage(img, levels, outputPath)
+
+    print("tiles generated in: " + outputPath)
 
 
 def getOutputPath(path):
@@ -69,7 +72,7 @@ def resizeAndCropImage(img, levels, outputPath):
 
 def validateFilePath(imagePath):
     if not path.exists(imagePath):
-        raise FileNotFoundError
+        raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), imagePath)
 
 
 def getTotalLevel(x, y):
