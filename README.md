@@ -69,7 +69,7 @@ A directory with the same image name will be created in the same path of input i
 
 -  I have multiple versions of Python installed, so I'm using 'python3' in this utility for running all Python related commands.
 -  Input image path should be writable.
--  Not tested with all image formats, for now it supports PNG and JPEG.
+-  Not tested with all image formats, for now it supports TIFF, PNG and JPEG.
 -  Tested with input path (with space) manually.
 -  Got "ResourceWarning: unclosed file " warning when executing unit tests, not a blocker though, may need more investigation.
 -  This Python module is built in pure module functions, using Class may better hide the details other than exposing them. 
