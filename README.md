@@ -39,7 +39,7 @@ Two ways to run:
 
 ## Output
 
-A directory with the same image name will be created in the same path of input image
+A directory with the same image name will be created in the same path of input image, this directory will contain the tiles organised for each level.
 
 # Tests
 
