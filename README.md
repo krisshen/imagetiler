@@ -30,10 +30,10 @@ It's built with TDD approach for practise :)
 
 Two ways to run:
 
-	# use MakeFile command
+	# use MakeFile command, replace {IMAGE_PATH} with your actual image path
 	make run IMAGEPATH="{IMAGE_PATH}"
 
-	# or use Python command
+	# or use Python command, replace {IMAGE_PATH} with your actual image path
 	python3 imagetiler/tiler.py "{IMAGE_PATH}"
 
 
