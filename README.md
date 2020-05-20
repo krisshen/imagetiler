@@ -1,5 +1,5 @@
 
-# Introduction
+# Image Tiler
 
 This code base is a simple **Image Tiler** utility (Python module) written in Python 3. It reads an input image, calculate its levels (based on 1/2 resolution, 1/4 resolution and so on until 1x1) and size per each level, then generates 256x256 sized tiles for the entire image per level, which means all tiles will make up to a full image.
 
